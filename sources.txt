@@ -1,0 +1,8 @@
+Conda env 
+C:\Users\memor\Documents\MLProjects\WW Tutorials\flower-chatbot\.conda-flower
+
+Activate env
+conda activate ...
+
+Run Streamlit app script in terminal
+Streamlit run streamlit_frontend.py

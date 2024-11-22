@@ -129,6 +129,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+./env-flowerbot/          # Conda environment added to .gitignore
+/env-flowerbot/ 
 
 # Spyder project settings
 .spyderproject
