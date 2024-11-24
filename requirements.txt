@@ -1,1 +1,7 @@
 streamlit
+chromadb
+llama-index-embeddings-huggingface
+langchain-openai
+python-dotenv
+langchain-groq
+langgraph

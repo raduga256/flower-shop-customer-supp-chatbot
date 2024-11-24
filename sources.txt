@@ -6,3 +6,8 @@ conda activate ...
 
 Run Streamlit app script in terminal
 Streamlit run streamlit_frontend.py
+
+######
+Huggingface embeddings models
+Link: https://huggingface.co/spaces/mteb/leaderboard
+Select according to purpose
