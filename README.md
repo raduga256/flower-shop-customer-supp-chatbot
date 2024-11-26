@@ -71,6 +71,7 @@ will setup LangGraph to act as an an Agentic Chatbot. We will connect our Agent 
 - Test Frontend
 - Create tool for Querying Knowledge base ---> tools.py 
 - Product Reccommendation tool ---> tools.py 
+- Bind tools to LLM + ChatPrompt
 - Add tools to LangGraph Agent
 - LangGraph Conditional Edge
 - Updating frontend & testing
