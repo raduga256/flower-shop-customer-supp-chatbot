@@ -1,70 +1,67 @@
 import streamlit as st
 from vector_store import FlowerShopVectorStore
-
-# import chatbot
 from chatbot import app
 from langchain_core.messages import AIMessage, HumanMessage
-
-# Import customer access sripts
 from tools import customers_database, data_protection_check
 
 st.set_page_config(layout='wide', page_title='Flower Shop Chatbot', page_icon='💐')
-# vector_store = FlowerShopVectorStore()    # Knowledge base doesn't have to be initialized here because the chatbot graph already has access
 
 if 'message_history' not in st.session_state:
-    st.session_state.message_history = [AIMessage(content="Hiya, Im the flower shop chatbot. How can I help?") ]
+    st.session_state.message_history = [AIMessage(content="Hiya, I'm the flower shop chatbot. How can I help?")]
 
 left_col, main_col, right_col = st.columns([1, 2, 1])
 
 # 1. Buttons for chat - Clear Button
-
 with left_col:
     if st.button('Clear Chat'):
         st.session_state.message_history = []
-        
 
 # 2. Chat history and input
 with main_col:
     user_input = st.chat_input("Type here...")
 
     if user_input:
-        
-    # No More calling the Knowledge Base directly. We shall be using the ChatModel LL chain
         st.session_state.message_history.append(HumanMessage(content=user_input))
+
+        try:
+            response = app.invoke({"messages": st.session_state.message_history})
+            st.session_state.message_history = response['messages']
         
-        # Invoke the LLM with user_input -- All message history until when we start to use langgraph autonomously
+        except ValueError as ve:
+            if str(ve) == "No response generated":
+                error_message = AIMessage(content="I'm sorry, I didn't quite understand that. Could you please rephrase your question or provide more details?")
+                st.session_state.message_history.append(error_message)
+            else:
+                raise ve
         
-        response = app.invoke(
-            {
-                "messages": st.session_state.message_history
-            }
-        )
-        
-        # Update chat history and response
-        st.session_state.message_history = response['messages']
-        
+        except Exception as e:
+            if isinstance(e, BadRequestError):  # Custom error handling for BadRequestError
+                error_message = AIMessage(content="An error occurred while processing your request. Please try again or adjust your query.")
+                st.session_state.message_history.append(error_message)
+                log_error(e)
+            else:
+                raise e
+
     for i in range(1, len(st.session_state.message_history) + 1):
         this_message = st.session_state.message_history[-i]
-        
-        # choose which role Type to display on chat based on AI or Human message
+
         if isinstance(this_message, AIMessage):
             message_box = st.chat_message("assistant")
-            
-        else: 
+        else:
             message_box = st.chat_message("user")
-        
-        # Display message content    
-        message_box.markdown(this_message.content)
-# 3. State variables
 
+        message_box.markdown(this_message.content)
+
+# 3. State variables
 # with right_col:
 #     st.text(st.session_state.message_history[-1])
-
-## We want to display existing custom profile information on the right
-# for the user validation testing
 
 with right_col:
     st.title('customers database')
     st.write(customers_database)
     st.title('data protection checks')
     st.write(data_protection_check)
+
+def log_error(error):
+    with open("error_log.txt", "a") as log_file:
+        log_file.write(f"{error}\n")

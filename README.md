@@ -20,14 +20,23 @@ I will build features into the chatbot such as:
 - Getting product reccommendations
 
 ## Project Breakdown:
-- *Part 1:* Project folders setup and Streamlit
-- *Part 2:*	FAQ and product Recommendation
+- ## *Part 1:* Project folders setup and Streamlit
+Libraries Needed:
+langchain-openai
+python-dotenv
+langchain-groq
+langgraph
+
+- ## *Part 2:*	FAQ and product Recommendation
+
 ### Major Goal: Create a local RAG database
 Create and Ultilize a Local RAG 
  
  we will setup a local RAG database with ChromaDB, HuggingFace and LlamaIndex in order to be able to retrieve relevant products and FAQ questions. We will also connect it to the frontend we built in the previous episode to test it interactively.
 
- In this part of the tutorial we created a vector database with ChromaDB, and connected it to our streamlit frontend. With this setup we were able to ask FAQ style questions and also ask for product recommendations for our Flower Shop. Within the chroma database we created two knowledge base collections:
+ In this part we created a vector database with ChromaDB, and connected it to our streamlit frontend. With this setup we were able to ask FAQ style questions and also ask for product recommendations for our Flower Shop. Within the chroma database we created two knowledge base collections:
+ IMAGE
+ ![2 knowledge bases](<flower-bot-without agent.png>)
 
 FAQ Question and Answer pairs
 Product descriptions
@@ -55,7 +64,13 @@ python-dotenv
 langchain-groq
 langgraph
 
-will setup LangGraph to act as an an Agentic Chatbot. We will connect our Agent with the RAG database we setup in the last episode with two tools that the Agent can use to retrieve information on demand. We will use few shot prompting in our tool definition to teach our language model how to use them effectively
+will setup LangGraph to act as an an Agentic Chatbot. We will connect our Agent with the RAG database we setup in the last chapter with two tools that the Agent can use to retrieve information on demand. We will use few shot prompting in our tool definition to teach our language model how to use them effectively
+Image 
+
+![LLM-Autonomous-Agent](mum's-birthday-01.png)
+
+![LLM-Autonomous-Agent](mum's-birthday-02.png)
+
 
 ##### Processes
 - What we will build
@@ -79,6 +94,25 @@ will setup LangGraph to act as an an Agentic Chatbot. We will connect our Agent 
 
 
 - #### *Part 4:* Customer Management
+ ##### Customer Management Tools
 
+Create customers database and give our LangGraph chatbot the ability to manage it with two new agent tools:
+
+1. Retrieving customer details with a DPA check
+2. Creating a new customer
+
+![Customer-management](customer-email-account.png)
+
+![Validate-Customer-Details](customer-veri-with-phoneNo.png)
+
+ - What we will build
+ -  Creating customers database
+ - Creating tools
+ - Data protection check tool
+ - Create new customer tool
+ - Connecting tools to LangGraph
+ - Updating prompt 
+ - Updating frontend
+ - Demo and wrapup
 
 - #### *Part 5:* Order Management

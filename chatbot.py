@@ -8,7 +8,10 @@ from langchain_core.output_parsers import StrOutputParser
 
 # Import ToolNode
 from langgraph.prebuilt import ToolNode
-from tools import query_knowledge_base, search_for_product_recommendations
+from tools import (query_knowledge_base,
+                   search_for_product_recommendations,
+                   data_protection_check,
+                   create_new_customer)
 
 
 # import API keys
@@ -29,10 +32,10 @@ langchain_api_key = os.environ["LANGCHAIN_API_KEY"]
 
 # Instantiate the  model
 
-# specify llama model
-llamaChatModel = ChatGroq(
-    model="llama3-70b-8192"
-)
+# # specify llama model
+# llamaChatModel = ChatGroq(
+#     model="llama3-70b-8192"
+# )
 
 # specify Gemma model
 gemmaChatModel = ChatGroq(
@@ -56,6 +59,7 @@ You are a customer service chatbot for a flower shop company. You can help the c
 
 1. Answer questions the user might have relating to serivces offered
 2. Recommend products to the user based on their preferences
+3. Retrieve or create customer profiles. If the customer already has a profile, perform a data protection check to retrieve their details. If not, create them a profile.
 
 #Tone
 
@@ -70,7 +74,8 @@ chat_template = ChatPromptTemplate.from_messages(
 )
 
 # Register our tools that we shall BIND to the LLM
-tools = [query_knowledge_base, search_for_product_recommendations]
+tools = [query_knowledge_base, search_for_product_recommendations, data_protection_check, create_new_customer]
+                   
 
 # Chains using LECL --> combine chat-prompt with LLM
 # llm_with_prompt = chat_template | gemmaChatModel | output_parser
